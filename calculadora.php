@@ -20,18 +20,54 @@
                 <span class="input-group-text ms-2 rounded-start">-</span>
                 <select class="form-select rounded-end" aria-label="Default select example" name="op">
                     <option selected></option>
-                    <option value="1">+</option>
-                    <option value="2">-</option>
-                    <option value="3">*</option>
-                    <option value="4">/</option>
-                    <option value="5">^</option>
-                    <option value="6">!</option>
+                    <option value="+">+</option>
+                    <option value="-">-</option>
+                    <option value="*">*</option>
+                    <option value="/">/</option>
+                    <option value="^">^</option>
+                    <option value="!">!</option>
                 </select>
                 <span class="input-group-text ms-2 rounded-start">Número 2</span>
                 <input type="text" aria-label="num2" class="form-control rounded-end" name="num2">
                 <input type="submit" value="Calcular" class="btn btn-outline-success ms-1 rounded">
             </div>
+            <br>
+            <div>     
+                <button type="button" class="btn btn-outline-warning">Salvar</button>
+                <button type="button" class="btn btn-outline-secondary">Pegar Valores</button>
+                <button type="button" class="btn btn-outline-info">M</button>
+                <button type="button" class="btn btn-outline-info">Apagar Histórico</button>
+                <br>
+            </div>
+      
             <?php
+            
+            session_start();
+
+            function adicionar($guardar) {
+                $_SESSION['historico'][] = $guardar;
+            }
+            function apagar() {
+                $_SESSION['historico'] = array();
+            }
+
+           
+            function salvar($save) {
+                $_SESSION['memoria'] = $save;
+            }
+
+           
+            function recuperar() {
+                 return $_SESSION['memoria'];
+            }
+
+            
+            function limpar() {
+                 $_SESSION['memoria'] = null;
+            }
+
+            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
+
             if (isset($_GET['num1']) && isset($_GET['num2']) && isset($_GET['op'])) {
                 $num1 = $_GET['num1'];
                 $num2 = $_GET['num2'];
@@ -39,26 +75,26 @@
                 $res = 0;
 
                 switch ($op) {
-                    case '1':
+                    case '+':
                         $res = $num1 + $num2;
                         break;
-                    case '2':
+                    case '-':
                         $res = $num1 - $num2;
                         break;
-                    case '3':
+                    case '*':
                         $res = $num1 * $num2;
                         break;
-                    case '4':
+                    case '/':
                         if ($num2 != 0) {
                             $res = $num1 / $num2;
                         } else {
                             $res = "Erro: Divisão por zero!";
                         }
                         break;
-                    case '5':
+                    case '^':
                         $res = pow($num1, $num2);
                         break;
-                    case '6':
+                    case '!':
                         function fatorialManual($n) {
                             $resultado = 1;
                             for ($i = 2; $i <= $n; $i++) {
@@ -67,7 +103,7 @@
                             return $resultado;
                         }
                         
-                        // Exemplo de uso:
+                        
                         $numero = $num1;
                         $res = fatorialManual($numero);
                         break;
@@ -75,9 +111,20 @@
                         $res = "Erro: Operação inválida!";
                         break;
                 }
-                echo '<div class="p-2 bg-white text-dark h-auto fs-6 ms-2 me-2 rounded">' . $res . '</div>';
+                $guardar = "$num1 $op $num2 = $res";
+
+                adicionar($guardar);
+
+                $_SESSION['resultado'] = $res;
+
+                echo '<br><div class="p-2 bg-white text-dark h-auto fs-6 ms-2 me-2 rounded">' . $res . '</div><br>';
+                echo '<div class="p-2 bg-white text-dark h-auto fs-6 ms-2 me-2 rounded">' . "<b>HISTÓRICO" . '</div><br>';
+                echo '<div class="p-2 bg-white text-dark h-auto fs-6 ms-2 me-2 rounded">' . $guardar . '</div>';
+            }
+              
             }
             ?>
+            
         </form>
     </div>
 </div>   
