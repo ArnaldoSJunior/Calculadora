@@ -33,10 +33,10 @@
             </div>
             <br>
             <div>     
-                <button type="button" class="btn btn-outline-warning">Salvar</button>
-                <button type="button" class="btn btn-outline-secondary">Pegar Valores</button>
-                <button type="button" class="btn btn-outline-info">M</button>
-                <button type="button" class="btn btn-outline-info">Apagar Histórico</button>
+                <input type="submit" value="Salvar" class="btn btn-outline-warning">
+                <input type="submit" value="Pegar Valore" class="btn btn-outline-secondary">
+                <input type="submit" value="M" class="btn btn-outline-info">
+                <input type="submit" value="Apagar Histórico" class="btn btn-outline-info">
                 <br>
             </div>
       
@@ -117,9 +117,17 @@
 
                 $_SESSION['resultado'] = $res;
 
+
                 echo '<br><div class="p-2 bg-white text-dark h-auto fs-6 ms-2 me-2 rounded">' . $res . '</div><br>';
                 echo '<div class="p-2 bg-white text-dark h-auto fs-6 ms-2 me-2 rounded">' . "<b>HISTÓRICO" . '</div><br>';
-                echo '<div class="p-2 bg-white text-dark h-auto fs-6 ms-2 me-2 rounded">' . $guardar . '</div>';
+                
+                if(isset($_SESSION['historico'])) {
+                    foreach ($_SESSION['historico'] as $operacao) {
+                        echo '<div class="p-2 bg-white text-dark h-auto fs-6 ms-2 me-2 rounded">' . $operacao . '</div>';
+                    }
+        
+                }
+
             }
               
             }
