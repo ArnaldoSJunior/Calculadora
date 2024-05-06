@@ -165,14 +165,6 @@
                             $_SESSION['resultado'] = $guardar;
                             $resultado = $_SESSION['resultado'];
                             echo "<script>document.getElementById('resultado').innerText = '$resultado';</script>";
-                        
-
-                            if(isset($_SESSION['historico'])) {
-                                foreach ($_SESSION['historico'] as $operacao) {
-                                    echo '<div class="p-2 bg-white text-dark h-auto fs-6 ms-2 me-2 rounded">' . $operacao . '</div>';
-                                }
-                    
-                            }
         
                         }
                     }
@@ -194,8 +186,13 @@
                     apagar();
                     $resultado = "Resultado: ";
                     echo "<script>document.getElementById('resultado').innerText = '$resultado';</script>";
-                break;
-                
+                break;   
+            }
+            if(isset($_SESSION['historico'])) {
+                foreach ($_SESSION['historico'] as $operacao) {
+                    echo '<div class="p-2 bg-white text-dark h-auto fs-6 ms-2 me-2 ">' . $operacao . '</div>';
+                }
+    
             }
             ?>
             </form>
