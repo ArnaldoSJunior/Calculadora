@@ -189,19 +189,14 @@
                     }
                     break;
                 case 4;
-                    // Verifica se já há dados salvos na memória
                     if(isset($_SESSION['dados'])){
-                        // Verifica se a operação M foi executada pela primeira vez
                         if(!isset($_SESSION['opM']) || $_SESSION['M'] == null){
-                            // Salva os dados na memória e define opM como 1 para indicar que já foram salvos
                             $_SESSION['M'] = $_SESSION['dados']['num1'] . ' ' . $_SESSION['dados']['op'] . ' ' . $_SESSION['dados']['num2'] . ' = ' . $_SESSION['dados']['res'];
-                            $_SESSION['opM'] = 1;
+                            //$_SESSION['opM'] = 1;
                         } else {
-                            // Exibe os dados salvos na memória
                             $res = $_SESSION['M'];
                             echo "<script>document.getElementById('resultado').innerText = '$res';</script>";
-                            // Define opM como 0 novamente para indicar que os dados foram exibidos
-                            $_SESSION['opM'] = 0;
+                            //$_SESSION['opM'] = 0;
                         }
                     }
                 break;
