@@ -1,4 +1,4 @@
-<?php 
+ <?php 
     session_start();
     $resultado = null ??  "<br>";
     $resultado = $_SESSION['resultado'];
@@ -53,7 +53,7 @@
 
                 <div>
                     <br>
-                    <div class="p-2 bg-white text-dark h-auto fs-6 ms-2 me-2 rounded"><?= $resultado ?>
+                    <div id="resultado" class="p-2 bg-white text-dark h-auto fs-6 ms-2 me-2 rounded"><?= $_SESSION['resultado'] ?>
                     </div><br>
                 </div>
                 <div>
@@ -150,6 +150,8 @@
         
                             $_SESSION['resultado'] = $res;
                             $resultado = $_SESSION['resultado'];
+
+                            echo "<script>document.getElementById('resultado').innerText = '$resultado';</script>";
                         
 
                             if(isset($_SESSION['historico'])) {
