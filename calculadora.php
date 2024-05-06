@@ -1,5 +1,6 @@
  <?php 
     session_start();
+    include_once "ses.php";
     $resultado = null ??  "Resultado: ";
     $resultado = $_SESSION['resultado'];
     
@@ -60,7 +61,7 @@
                     <div class="p-2 bg-white text-dark h-auto fs-6 ms-2 me-2 rounded"><b>HISTÓRICO</div><br>
                 </div>
                 <?php
-                include_once "ses.php";
+                
             
 
             if(isset($_GET['calcular'])){
@@ -191,7 +192,7 @@
                     // Verifica se já há dados salvos na memória
                     if(isset($_SESSION['dados'])){
                         // Verifica se a operação M foi executada pela primeira vez
-                        if(!isset($_SESSION['opM'])){
+                        if(!isset($_SESSION['opM']) || $_SESSION['M'] == null){
                             // Salva os dados na memória e define opM como 1 para indicar que já foram salvos
                             $_SESSION['M'] = $_SESSION['dados']['num1'] . ' ' . $_SESSION['dados']['op'] . ' ' . $_SESSION['dados']['num2'] . ' = ' . $_SESSION['dados']['res'];
                             $_SESSION['opM'] = 1;
