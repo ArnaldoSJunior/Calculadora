@@ -1,6 +1,6 @@
  <?php 
     session_start();
-    $resultado = null ??  "<br>";
+    $resultado = null ??  "Resultado: ";
     $resultado = $_SESSION['resultado'];
     
 ?>
@@ -45,7 +45,7 @@
                 <br>
                 <div>
                     <input type="submit" name="salvar" value="Salvar" class="btn btn-outline-warning">
-                    <input type="submit" name="pegar" value="Pegar Valore" class="btn btn-outline-secondary">
+                    <input type="submit" name="pegar" value="Pegar Valores" class="btn btn-outline-secondary">
                     <input type="submit" name="m" value="M" class="btn btn-outline-info">
                     <input type="submit" name="apagar" value="Apagar Histórico" class="btn btn-outline-info">
                     <br>
@@ -74,6 +74,11 @@
                 $operacao = 5;
             }
 
+            $num1_salvo = isset($_SESSION['num1_salvo']) ? $_SESSION['num1_salvo'] : '';
+            $num2_salvo = isset($_SESSION['num2_salvo']) ? $_SESSION['num2_salvo'] : '';
+            $op_salvo = isset($_SESSION['op_salvo']) ? $_SESSION['op_salvo'] : '';
+            $res_salvo = isset($_SESSION['res_salvo']) ? $_SESSION['res_salvo'] : '';
+
             function adicionar($guardar) {
                 $_SESSION['historico'][] = $guardar;
             }
@@ -81,12 +86,6 @@
             function apagar() {
                 $_SESSION['historico'] = array();
             }
-
-           
-            function salvar($save) {
-                $_SESSION['memoria'] = $save;
-            }
-
            
             function recuperar() {
                  return $_SESSION['memoria'];
@@ -96,6 +95,14 @@
             function limpar() {
                  $_SESSION['memoria'] = null;
             }
+            function salvar($guardar) {
+                if (isset($guardar)) {
+                    $_SESSION['salvar'] = $guardar;
+                }
+                
+            }
+
+            $guardar;
             
 
             switch($operacao){
@@ -145,12 +152,18 @@
                                     break;
                             }
                             $guardar = "$num1 $op $num2 = $res";
-        
                             adicionar($guardar);
-        
-                            $_SESSION['resultado'] = $res;
-                            $resultado = $_SESSION['resultado'];
 
+                            $_SESSION['dados'] = array(
+                                'num1' => $num1,
+                                'num2' => $num2,
+                                'op' => $op,
+                                'res' => $res,
+                                'historico' => $_SESSION['historico']
+                            );
+        
+                            $_SESSION['resultado'] = $guardar;
+                            $resultado = $_SESSION['resultado'];
                             echo "<script>document.getElementById('resultado').innerText = '$resultado';</script>";
                         
 
@@ -165,17 +178,24 @@
                     }
                 break;
                 case 2:
+                    $guardar = $_SESSION['dados']['num1'] . ' ' . $_SESSION['dados']['op'] . ' ' . $_SESSION['dados']['num2'] . ' = ' . $_SESSION['dados']['res'];
+                    salvar($guardar);
                     
+                break;
+                case 3:
+                    if (isset($_SESSION['salvar'])) {
+                        $res = $_SESSION['salvar'];
+                
+                        $resultado = $res;
+                        echo "<script>document.getElementById('resultado').innerText = '$resultado';</script>";
+                    }
                     break;
                 case 5:
                     apagar();
+                    $resultado = "Resultado: ";
+                    echo "<script>document.getElementById('resultado').innerText = '$resultado';</script>";
                 break;
-            }
-
-            if ($_SERVER['REQUEST_METHOD'] === 'GET') {
-
                 
-            
             }
             ?>
             </form>
