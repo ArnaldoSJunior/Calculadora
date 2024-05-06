@@ -60,6 +60,7 @@
                     <div class="p-2 bg-white text-dark h-auto fs-6 ms-2 me-2 rounded"><b>HISTÓRICO</div><br>
                 </div>
                 <?php
+                include_once "ses.php";
             
 
             if(isset($_GET['calcular'])){
@@ -101,8 +102,12 @@
                 }
                 
             }
+            function teclaM($guardar){
+                if(isset($guardar)){
+                    $_SESSION['M'] = $guardar;
+                }
 
-            $guardar;
+            }
             
 
             switch($operacao){
@@ -182,6 +187,23 @@
                         echo "<script>document.getElementById('resultado').innerText = '$resultado';</script>";
                     }
                     break;
+                case 4;
+                    // Verifica se já há dados salvos na memória
+                    if(isset($_SESSION['dados'])){
+                        // Verifica se a operação M foi executada pela primeira vez
+                        if(!isset($_SESSION['opM'])){
+                            // Salva os dados na memória e define opM como 1 para indicar que já foram salvos
+                            $_SESSION['M'] = $_SESSION['dados']['num1'] . ' ' . $_SESSION['dados']['op'] . ' ' . $_SESSION['dados']['num2'] . ' = ' . $_SESSION['dados']['res'];
+                            $_SESSION['opM'] = 1;
+                        } else {
+                            // Exibe os dados salvos na memória
+                            $res = $_SESSION['M'];
+                            echo "<script>document.getElementById('resultado').innerText = '$res';</script>";
+                            // Define opM como 0 novamente para indicar que os dados foram exibidos
+                            $_SESSION['opM'] = 0;
+                        }
+                    }
+                break;
                 case 5:
                     apagar();
                     $resultado = "Resultado: ";
